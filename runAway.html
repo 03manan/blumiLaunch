@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blumi - Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #232726;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .logo-container {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .logo {
+            /* width: 200px;
+            height: auto; */
+            transition: transform 0.3s ease;
+        }
+
+        .coming-soon {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin: 2rem 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            text-transform: uppercase;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            text-wrap: balance;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        .highlight {
+            color: #b0e650;
+        }
+
+        .email-container {
+            position: relative;
+            margin: 3rem 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        .email-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1.2rem;
+            background: transparent;
+            border: 2px solid rgba(176, 230, 80, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #b0e650;
+            background: rgba(176, 230, 80, 0.05);
+        }
+
+        .submit-btn {
+            background: #b0e650;
+            color: #232726;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(176, 230, 80, 0.2);
+        }
+
+        .plant-section {
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.9s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .plant-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        .plant {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s ease;
+        }
+
+        .pot {
+            width: 80px;
+            height: 70px;
+            background: #8B4513;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .pot::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            height: 20px;
+            background: #A0522D;
+            border-radius: 10px;
+        }
+
+        .stem {
+            width: 8px;
+            height: 20px;
+            background: #558B2F;
+            margin: 0 auto;
+            position: relative;
+            transition: height 0.5s ease;
+        }
+
+        .leaf {
+            position: absolute;
+            transform-origin: bottom center;
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+
+        .leaf::before, .leaf::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(45deg, #b0e650, #88c033);
+            border-radius: 50% 50% 0 50%;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .leaf::before {
+            width: 25px;
+            height: 25px;
+            transform: rotate(45deg);
+            left: 0;
+            top: 0;
+        }
+
+        .leaf::after {
+            width: 20px;
+            height: 20px;
+            transform: rotate(-45deg);
+            left: 5px;
+            top: -5px;
+            filter: brightness(1.1);
+        }
+
+        .leaf:nth-child(odd)::before {
+            animation: leafWave 3s ease-in-out infinite;
+        }
+
+        .leaf:nth-child(even)::after {
+            animation: leafWave 3s ease-in-out infinite reverse;
+        }
+
+        @keyframes leafWave {
+            0%, 100% { transform: rotate(45deg); }
+            50% { transform: rotate(40deg); }
+        }
+
+        .stem {
+            width: 6px;
+            height: 20px;
+            background: linear-gradient(to right, #3c7a1a, #558B2F, #3c7a1a);
+            margin: 0 auto;
+            position: relative;
+            transition: height 0.8s ease;
+            border-radius: 2px;
+        }
+
+        .stem::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.1) 0%, 
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 100%);
+        }
+
+        /* Add branch class for leaf stems */
+        .branch {
+            position: absolute;
+            width: 3px;
+            height: 12px;
+            background: linear-gradient(to right, #3c7a1a, #558B2F);
+            transform-origin: bottom center;
+            transition: all 0.5s ease;
+        }
+
+        .water-drop {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: linear-gradient(to bottom, #4FC3F7, rgba(79, 195, 247, 0.6));
+            border-radius: 6px 6px 2px 2px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .water-btn {
+            background: #4FC3F7;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .water-btn:hover {
+            background: #29B6F6;
+            transform: translateY(-2px);
+        }
+
+        .water-drop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #4FC3F7;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .growth-level {
+            font-size: 1.2rem;
+            color: #b0e650;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+             <svg class="logo" id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100%" viewBox="0 0 275 117" enable-background="new 0 0 275 117" xml:space="preserve">
+                <path fill="#232726" opacity="1.000000" stroke="none" d=" M178.000000,118.000000   C118.666687,118.000000 59.833370,118.000000 1.000039,118.000000   C1.000026,79.000031 1.000026,40.000057 1.000013,1.000066   C92.666603,1.000044 184.333206,1.000044 275.999878,1.000022   C275.999908,39.999931 275.999908,78.999863 275.999939,117.999893   C243.500000,118.000000 211.000000,118.000000 178.000000,118.000000  M224.062759,74.508743   C224.065460,83.501862 224.040924,92.495110 224.080338,101.488068   C224.107285,107.639938 226.846527,110.902718 231.886978,110.935959   C236.882919,110.968910 239.843170,107.600807 239.872437,101.613075   C239.931824,89.455795 239.927750,77.298080 239.912643,65.140594   C239.898148,53.467136 234.324600,44.101250 224.588104,40.475170   C214.562531,36.741417 205.728897,38.544949 199.198837,47.976074   C195.462967,42.639408 190.981689,39.247791 184.632645,38.915325   C170.149353,38.156918 159.258286,48.159435 159.066132,62.725731   C158.896988,75.547203 159.010010,88.372665 159.033386,101.196304   C159.044708,107.411255 161.780945,110.856194 166.602844,110.864243   C171.396149,110.872238 174.191040,107.386551 174.200699,101.290131   C174.219437,89.465706 173.969452,77.633446 174.359558,65.821899   C174.465530,62.613331 175.715118,58.754345 177.839203,56.530415   C179.384659,54.912327 183.470734,54.612659 185.994095,55.301151   C189.615936,56.289352 191.119766,59.675343 191.105698,63.581383   C191.060104,76.238312 190.939911,88.899155 191.231979,101.549637   C191.290970,104.104210 192.342636,107.576660 194.179413,108.896675   C196.197403,110.346947 200.265671,110.928673 202.314041,109.815590   C204.532318,108.610191 206.643967,105.053734 206.734253,102.450905   C207.184326,89.476021 206.894608,76.477097 206.992859,63.487602   C207.031540,58.372490 210.974884,54.324165 215.611023,54.253040   C220.268341,54.181591 223.902740,58.126076 224.038269,63.521763   C224.121887,66.850555 224.059036,70.183037 224.062759,74.508743  M53.155891,86.378189   C53.116806,77.722275 53.400543,69.050041 52.963966,60.414219   C52.286804,47.019314 37.348099,37.050915 24.379520,41.062267   C24.379520,45.146488 24.379520,49.249313 24.379520,53.713650   C26.233036,53.833023 27.849724,53.893162 29.457087,54.049294   C33.517399,54.443691 37.012497,56.442184 37.222870,60.518745   C37.718079,70.114815 37.792755,79.770355 37.290359,89.362709   C37.069889,93.572227 33.499420,96.039330 29.150179,95.924301   C24.750881,95.807945 22.227762,92.965294 21.292162,88.831345   C20.931595,87.238174 21.075006,85.519630 21.073782,83.858147   C21.056974,61.050941 21.082987,38.243652 21.029472,15.436547   C21.016363,9.848710 18.374414,6.958497 13.547134,6.857995   C8.609426,6.755194 5.182341,9.984444 5.164757,15.325440   C5.085833,39.297779 4.870138,63.274845 5.251273,87.241501   C5.466153,100.753578 16.464407,111.861755 28.850813,111.663048   C45.226505,111.400345 53.814171,98.617325 53.155891,86.378189  M143.751953,39.388233   C136.308075,38.611115 133.674194,41.083935 133.653122,48.445969   C133.616013,61.416862 133.456787,74.387810 133.272858,87.357658   C133.215576,91.397125 130.835617,93.844856 127.123077,94.874420   C121.521278,96.427902 116.911896,92.520058 116.845482,86.050629   C116.717331,73.568596 116.813232,61.084377 116.712280,48.601902   C116.659782,42.110645 113.826126,38.900265 108.525002,38.958569   C103.618378,39.012531 100.891289,42.354755 100.877426,48.491863   C100.848854,61.141468 100.791786,73.791817 100.893425,86.440674   C101.000671,99.785950 111.918724,110.912682 124.766373,110.961441   C137.737991,111.010666 148.764877,100.153755 148.969254,86.765503   C149.167389,73.786057 148.980774,60.801132 149.056885,47.819168   C149.078384,44.151230 147.963455,41.308159 143.751953,39.388233  M79.846939,38.499996   C79.852425,30.674053 79.964546,22.846218 79.825714,15.022836   C79.733948,9.851277 76.555786,6.859453 71.706261,6.924947   C66.859322,6.990406 64.241020,9.500609 64.221039,14.926429   C64.132729,38.903225 63.905743,62.885914 64.332085,86.855743   C64.578140,100.689613 74.127022,109.925484 87.215446,110.398003   C91.826675,110.564468 95.309456,107.518181 95.645981,103.024040   C95.954193,98.907928 93.380836,95.755081 89.119652,95.028069   C81.953041,93.805374 79.885574,91.376625 79.869972,83.957626   C79.838806,69.138466 79.851791,54.319206 79.846939,38.499996  M267.852112,100.980087   C267.852783,98.147453 267.855133,95.314819 267.853851,92.482185   C267.847595,78.818611 267.943268,65.153893 267.791229,51.491936   C267.711731,44.347946 262.457214,40.629410 256.550446,43.294777   C252.828064,44.974468 252.022781,48.293556 252.027390,52.013306   C252.047180,68.009666 252.020859,84.006096 252.042084,100.002457   C252.050476,106.331772 254.236115,109.658783 258.599457,110.164703   C263.426117,110.724358 266.223175,108.200821 267.852112,100.980087  M269.493530,27.600889   C268.909180,23.349537 267.297302,19.955656 262.596405,18.940508   C258.523743,18.061018 254.978287,18.816698 252.279434,22.139742   C249.725662,25.284153 249.454636,28.792234 251.067657,32.450432   C252.887131,36.576843 256.570099,37.810101 260.505707,37.450748   C265.772980,36.969803 268.832458,33.678646 269.493530,27.600889  z"/>
+                <path fill="#B2E654" opacity="1.000000" stroke="none" d=" M224.062347,74.011307   C224.059036,70.183037 224.121887,66.850555 224.038269,63.521763   C223.902740,58.126076 220.268341,54.181591 215.611023,54.253040   C210.974884,54.324165 207.031540,58.372490 206.992859,63.487602   C206.894608,76.477097 207.184326,89.476021 206.734253,102.450905   C206.643967,105.053734 204.532318,108.610191 202.314041,109.815590   C200.265671,110.928673 196.197403,110.346947 194.179413,108.896675   C192.342636,107.576660 191.290970,104.104210 191.231979,101.549637   C190.939911,88.899155 191.060104,76.238312 191.105698,63.581383   C191.119766,59.675343 189.615936,56.289352 185.994095,55.301151   C183.470734,54.612659 179.384659,54.912327 177.839203,56.530415   C175.715118,58.754345 174.465530,62.613331 174.359558,65.821899   C173.969452,77.633446 174.219437,89.465706 174.200699,101.290131   C174.191040,107.386551 171.396149,110.872238 166.602844,110.864243   C161.780945,110.856194 159.044708,107.411255 159.033386,101.196304   C159.010010,88.372665 158.896988,75.547203 159.066132,62.725731   C159.258286,48.159435 170.149353,38.156918 184.632645,38.915325   C190.981689,39.247791 195.462967,42.639408 199.198837,47.976074   C205.728897,38.544949 214.562531,36.741417 224.588104,40.475170   C234.324600,44.101250 239.898148,53.467136 239.912643,65.140594   C239.927750,77.298080 239.931824,89.455795 239.872437,101.613075   C239.843170,107.600807 236.882919,110.968910 231.886978,110.935959   C226.846527,110.902718 224.107285,107.639938 224.080338,101.488068   C224.040924,92.495110 224.065460,83.501862 224.062347,74.011307  z"/>
+                <path fill="#B2E654" opacity="1.000000" stroke="none" d=" M53.152359,86.856682   C53.814171,98.617325 45.226505,111.400345 28.850813,111.663048   C16.464407,111.861755 5.466153,100.753578 5.251273,87.241501   C4.870138,63.274845 5.085833,39.297779 5.164757,15.325440   C5.182341,9.984444 8.609426,6.755194 13.547134,6.857995   C18.374414,6.958497 21.016363,9.848710 21.029472,15.436547   C21.082987,38.243652 21.056974,61.050941 21.073782,83.858147   C21.075006,85.519630 20.931595,87.238174 21.292162,88.831345   C22.227762,92.965294 24.750881,95.807945 29.150179,95.924301   C33.499420,96.039330 37.069889,93.572227 37.290359,89.362709   C37.792755,79.770355 37.718079,70.114815 37.222870,60.518745   C37.012497,56.442184 33.517399,54.443691 29.457087,54.049294   C27.849724,53.893162 26.233036,53.833023 24.379520,53.713650   C24.379520,49.249313 24.379520,45.146488 24.379520,41.062267   C37.348099,37.050915 52.286804,47.019314 52.963966,60.414219   C53.400543,69.050041 53.116806,77.722275 53.152359,86.856682  z"/>
+                <path fill="#B2E654" opacity="1.000000" stroke="none" d=" M144.114319,39.549835   C147.963455,41.308159 149.078384,44.151230 149.056885,47.819168   C148.980774,60.801132 149.167389,73.786057 148.969254,86.765503   C148.764877,100.153755 137.737991,111.010666 124.766373,110.961441   C111.918724,110.912682 101.000671,99.785950 100.893425,86.440674   C100.791786,73.791817 100.848854,61.141468 100.877426,48.491863   C100.891289,42.354755 103.618378,39.012531 108.525002,38.958569   C113.826126,38.900265 116.659782,42.110645 116.712280,48.601902   C116.813232,61.084377 116.717331,73.568596 116.845482,86.050629   C116.911896,92.520058 121.521278,96.427902 127.123077,94.874420   C130.835617,93.844856 133.215576,91.397125 133.272858,87.357658   C133.456787,74.387810 133.616013,61.416862 133.653122,48.445969   C133.674194,41.083935 136.308075,38.611115 144.114319,39.549835  z"/>
+                <path fill="#B3E657" opacity="1.000000" stroke="none" d=" M79.846741,38.999992   C79.851791,54.319206 79.838806,69.138466 79.869972,83.957626   C79.885574,91.376625 81.953041,93.805374 89.119652,95.028069   C93.380836,95.755081 95.954193,98.907928 95.645981,103.024040   C95.309456,107.518181 91.826675,110.564468 87.215446,110.398003   C74.127022,109.925484 64.578140,100.689613 64.332085,86.855743   C63.905743,62.885914 64.132729,38.903225 64.221039,14.926429   C64.241020,9.500609 66.859322,6.990406 71.706261,6.924947   C76.555786,6.859453 79.733948,9.851277 79.825714,15.022836   C79.964546,22.846218 79.852425,30.674053 79.846741,38.999992  z"/>
+                <path fill="#B2E555" opacity="1.000000" stroke="none" d=" M267.831604,101.416977   C266.223175,108.200821 263.426117,110.724358 258.599457,110.164703   C254.236115,109.658783 252.050476,106.331772 252.042084,100.002457   C252.020859,84.006096 252.047180,68.009666 252.027390,52.013306   C252.022781,48.293556 252.828064,44.974468 256.550446,43.294777   C262.457214,40.629410 267.711731,44.347946 267.791229,51.491936   C267.943268,65.153893 267.847595,78.818611 267.853851,92.482185   C267.855133,95.314819 267.852783,98.147453 267.831604,101.416977  z"/>
+                <path fill="#B3E556" opacity="1.000000" stroke="none" d=" M269.495087,27.968508   C268.832458,33.678646 265.772980,36.969803 260.505707,37.450748   C256.570099,37.810101 252.887131,36.576843 251.067657,32.450432   C249.454636,28.792234 249.725662,25.284153 252.279434,22.139742   C254.978287,18.816698 258.523743,18.061018 262.596405,18.940508   C267.297302,19.955656 268.909180,23.349537 269.495087,27.968508  z"/>
+                </svg>
+        </div>
+
+        <div class="coming-soon">Coming Soon</div>
+        
+        <p class="message">
+            <span class="highlight">Something extraordinary</span> is growing.<br>
+            Help us nurture it while we prepare for launch!
+        </p>
+
+        <div class="plant-section">
+            <div class="plant-container">
+                <div class="plant">
+                    <div class="stem"></div>
+                    <div class="pot"></div>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="growth-level">Growth: 0%</div>
+                <button class="water-btn">Water the Plant 🌱</button>
+            </div>
+        </div>
+        
+        <div class="email-container">
+            <input type="email" class="email-input" placeholder="Enter your email for early access" aria-label="Email">
+            <button class="submit-btn">Get Notified</button>
+        </div>
+    </div>
+
+    <script>
+        let growth = 0;
+        let leafCount = 0;
+        const maxGrowth = 100;
+        const plant = document.querySelector('.plant');
+        const stem = document.querySelector('.stem');
+        const waterBtn = document.querySelector('.water-btn');
+        const growthLevel = document.querySelector('.growth-level');
+    
+        function addLeaf() {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.left = `${Math.random() * 40 - 20}px`;
+            leaf.style.top = `${Math.random() * 100}px`;
+            leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+            stem.appendChild(leaf);
+            setTimeout(() => {
+                leaf.style.opacity = '1';
+            }, 100);
+        }
+    
+        function createWaterDrop() {
+            const drop = document.createElement('div');
+            drop.className = 'water-drop';
+            drop.style.left = '50%';
+            drop.style.top = '0';
+            plant.appendChild(drop);
+    
+            drop.animate([
+                { top: '0', opacity: 1 },
+                { top: '100px', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            }).onfinish = () => drop.remove();
+        }
+    
+        function waterPlant() {
+            if (growth < maxGrowth) {
+                createWaterDrop();
+                growth += 10;
+                growth = Math.min(growth, maxGrowth);
+    
+                stem.style.height = `${20 + growth}px`;
+                growthLevel.textContent = `Growth: ${growth}%`;
+    
+                if (growth % 20 === 0 && leafCount < 5) {
+                    addLeaf();
+                    leafCount++;
+                }
+    
+                if (growth === maxGrowth) {
+                    growthLevel.textContent = 'Fully Grown! 🌿';
+                    waterBtn.disabled = true;
+                    waterBtn.textContent = 'Plant Flourishing ✨';
+                }
+            }
+        }
+    
+        // Add event listeners for both 'click' and 'touchstart' for mobile compatibility
+        waterBtn.addEventListener('click', waterPlant);
+        waterBtn.addEventListener('touchstart', waterPlant);
+    
+        // Logo hover effect
+        const logo = document.getElementById('logo');
+        logo.addEventListener('mouseover', () => {
+            logo.style.transform = 'scale(1.05)';
+        });
+        logo.addEventListener('mouseout', () => {
+            logo.style.transform = 'scale(1)';
+        });
+
+
+        
+    </script>
+    
+
+   
+</body>
+</html>
